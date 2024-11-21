@@ -39,12 +39,14 @@ class Cajero:
                 monto -= num_billetes * denominacion
 
         if monto > 0:
-            return "No se puede desglosar el monto con los billetes disponibles.", None
-
+            return "No se puede desglosar el monto {monto_original} con los billetes disponibles.", None
+           
+            ## AQUI VAMOS A ACTUALIZAR LOS BILLETES DEL CAJERO
+            
         for denom, cantidad in desglose.items():
             self.billetes[denom] -= cantidad
 
-        return "Desglose exitoso.", desglose
+        return True, f"Desglose exitoso: {desglose}"
 
     def calcular_total_disponible(self):
         """
@@ -82,6 +84,33 @@ class Cajero:
                 f"Ubicación: {self.ubicacion}\n"
                 f"Billetes Disponibles: {self.billetes}\n"
                 f"Total Disponible: {total_disponible}")
+    
+    def agregar_billetes(self, billetes_a_agregar):
+        """
+        Agrega billetes al cajero.
+        :param billetes_a_agregar: Diccionario con billetes a agregar.
+        """
+        for denominacion, cantidad in billetes_a_agregar.items():
+            if cantidad <= 0:
+                return f"Error: La cantidad de billetes a agregar debe ser positiva. Denominación: {denominacion}."
+            if denominacion in self.billetes:
+                self.billetes[denominacion] += cantidad
+            else:
+                self.billetes[denominacion] = cantidad
+        return f"Billetes agregados: {billetes_a_agregar}"
+        
 
+    def mostrar_operaciones(self):
+        """
+    Devuelve un resumen de todas las operaciones realizadas en el cajero.
+    """
+        if not self.operaciones:
+            return "No hay operaciones registradas en este cajero."
+
+        resumen = "Operaciones registradas:\n"
+        for operacion in self.operaciones:
+            resumen += (f"{operacion['fecha']} - {operacion['tipo']}: "
+                    f"{operacion['monto']}\n")
+        return resumen
 
 

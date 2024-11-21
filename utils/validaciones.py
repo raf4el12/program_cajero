@@ -80,3 +80,23 @@ def validar_opcion_menu(opcion, opciones_validas):
         return True, "Opción válida."
     return False, f"Opción inválida. Por favor, elija una opción válida: {opciones_validas}."
 
+def procesar_input_billetes(billetes_str):
+    """
+    Convierte el input de billetes a un diccionario válido.
+    """
+    try:
+        # Intenta convertir la cadena a un diccionario
+        billetes = eval(billetes_str)
+        if not isinstance(billetes, dict):
+            raise ValueError("El formato debe ser un diccionario, por ejemplo: {200: 10, 100: 20}")
+        
+        # Valida las denominaciones y las cantidades
+        denominaciones_validas = {200, 100, 50, 20, 10}
+        if not all(isinstance(denom, int) and denom in denominaciones_validas for denom in billetes.keys()):
+            raise ValueError(f"Solo se permiten las siguientes denominaciones: {denominaciones_validas}")
+        if not all(isinstance(cantidad, int) and cantidad >= 0 for cantidad in billetes.values()):
+            raise ValueError("Las cantidades de billetes deben ser enteros positivos.")
+        
+        return billetes
+    except Exception as e:
+        raise ValueError(f"Error al procesar los billetes: {e}")

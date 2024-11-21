@@ -1,4 +1,4 @@
-
+from utils.colors_alert import EXITO, RESET, INFO, FALLA
 class Cliente:
     def __init__(self, id_cliente, nombre, saldo, contraseña):
         self.id_cliente = id_cliente

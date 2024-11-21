@@ -1,6 +1,6 @@
-
-
+from utils.colors_alert import RESET, INFO, FALLA, EXITO
 from models.sistema_cajero import SistemaCajero
+from utils.validaciones import procesar_input_billetes
 
 def mostrar_menu():
     print("\n=== Sistema Cajero ===")
@@ -48,11 +48,16 @@ if __name__ == "__main__":
         elif opcion == "4":  # consultar clientes
             print(sistema.consultar_clientes())
 
-        elif opcion == "5":  # agregamos cajero
+        elif opcion == "5":  # Agregar cajero
             id_cajero = input("ID del cajero: ")
             ubicacion = input("Ubicación: ")
-            billetes = eval(input("Billetes disponibles (ejemplo: {200: 10, 100: 20}): "))
-            print(sistema.agregar_cajero(id_cajero, ubicacion, billetes))
+            billetes_input = input("Billetes disponibles (ejemplo: {200: 10, 100: 20}): ")
+            try:
+                billetes = procesar_input_billetes(billetes_input)
+                print(sistema.agregar_cajero(id_cajero, ubicacion, billetes))
+            except ValueError as e:
+                print(f"{FALLA}{e}{RESET}")
+
 
         elif opcion == "6":  # Modificamos cajero
             id_cajero = input("ID del cajero: ")
@@ -120,4 +125,4 @@ if __name__ == "__main__":
             print(sistema.ordenar_cajeros(clave))
 
         else:
-            print("Opción no válida. Intente de nuevo.")
+            print(f"{FALLA}Opción no válida. Intente de nuevo.{RESET}")

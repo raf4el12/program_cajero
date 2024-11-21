@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from utils.colors_alert import FALLA, RESET, EXITO, INFO
+
 class Movimiento:
     TIPOS_VALIDOS = ['Depósito', 'Retiro', 'Transferencia', 'Pago de servicios']
 
@@ -8,9 +10,9 @@ class Movimiento:
         tipo: 'Depósito', 'Retiro', 'Transferencia', 'Pago de servicios'
         """
         if tipo not in self.TIPOS_VALIDOS:
-            raise ValueError(f"Tipo de movimiento inválido: {tipo}. Debe ser uno de {self.TIPOS_VALIDOS}.")
+            raise ValueError(f"{FALLA}Tipo de movimiento inválido: {tipo}. Debe ser uno de {self.TIPOS_VALIDOS}.{RESET}")
         if monto <= 0:
-            raise ValueError("El monto debe ser mayor que 0.")
+            raise ValueError("{FALLA}El monto debe ser mayor que 0.{RESET}")
         
         self.fecha = fecha or datetime.now()
         self.tipo = tipo
