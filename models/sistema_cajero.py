@@ -1,6 +1,8 @@
 from models.client import Cliente
 from models.cajero import Cajero
 from models.movimiento import Movimiento
+from utils.algoritmos import quicksort_clientes, mergesort_cajeros, busqueda_binaria
+
 import json
 
 
@@ -172,3 +174,32 @@ class SistemaCajero:
             self.cajeros[id] = Cajero(**cajero)
         self.movimientos = [Movimiento(**mov) for mov in datos["movimientos"]]
         return "Datos cargados con éxito."
+    
+
+    def ordenar_clientes(self, clave):
+        """
+        Ordena la lista de clientes por clave ('id_cliente' o 'nombre').
+        """
+        lista_clientes = list(self.clientes.values())
+        self.clientes = {cliente.id_cliente: cliente for cliente in quicksort_clientes(lista_clientes, clave)}
+        return f"Clientes ordenados por {clave}."
+
+    def buscar_cliente(self, id_cliente):
+        """
+        Busca un cliente por ID usando búsqueda binaria.
+        :param id_cliente: ID del cliente a buscar.
+        :return: Cliente encontrado o mensaje de error.
+        """
+        lista_clientes = list(self.clientes.values())
+        lista_ordenada = quicksort_clientes(lista_clientes, 'id_cliente')
+        cliente = busqueda_binaria(lista_ordenada, 'id_cliente', id_cliente)
+        return cliente if cliente else "Cliente no encontrado."
+
+    def ordenar_cajeros(self, clave):
+        """
+        Ordena la lista de cajeros por clave ('id_cajero' o 'ubicacion').
+        """
+        lista_cajeros = list(self.cajeros.values())
+        self.cajeros = {cajero.id_cajero: cajero for cajero in mergesort_cajeros(lista_cajeros, clave)}
+        return f"Cajeros ordenados por {clave}."
+

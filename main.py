@@ -105,6 +105,19 @@ if __name__ == "__main__":
         elif opcion == "16":  # salimos del program
             print("Saliendo del sistema...")
             break
+        
+        elif opcion == "17":  # Ordenar clientes
+            clave = input("¿Ordenar clientes por 'id_cliente' o 'nombre'?: ")
+            print(sistema.ordenar_clientes(clave))
+
+        elif opcion == "18":  # Buscar cliente por ID
+            id_cliente = input("Ingrese el ID del cliente a buscar: ")
+            resultado = sistema.buscar_cliente(id_cliente)
+            print(resultado if isinstance(resultado, str) else f"Cliente encontrado: {resultado.nombre}")
+
+        elif opcion == "19":  # Ordenar cajeros
+            clave = input("¿Ordenar cajeros por 'id_cajero' o 'ubicacion'?: ")
+            print(sistema.ordenar_cajeros(clave))
 
         else:
             print("Opción no válida. Intente de nuevo.")
